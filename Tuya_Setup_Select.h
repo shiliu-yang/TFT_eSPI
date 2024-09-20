@@ -24,7 +24,6 @@
 
 // Only ONE line below should be uncommented to define your setup.  Add extra lines and files as needed.
 
-#include <./Tuya_Setup_Select.h>
 
 //#include <User_Setups/Setup1_ILI9341.h>  // Setup file for ESP8266 configured for my ILI9341
 //#include <User_Setups/Setup2_ST7735.h>   // Setup file for ESP8266 configured for my ST7735
@@ -157,6 +156,7 @@
 //#include <User_Setups/Dustin_ILI9341_ESP32.h>    // Setup file for Dustin Watts PCB with ILI9341
 //#include <User_Setups/ILI9225.h>
 
+#include <User_Setups/Setup303_Tuya_T2_ST7789.h>
 #endif // USER_SETUP_LOADED
 
 
