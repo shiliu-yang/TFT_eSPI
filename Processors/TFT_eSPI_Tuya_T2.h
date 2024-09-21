@@ -92,9 +92,27 @@
   #define TFT_MISO -1
 #endif
 
+#if 0
 #define tft_Write_8(C)   { uint8_t data = C; spi.transfer(&data, 1);}
-#define tft_Write_16(C)  { uint8_t data[2] = {(uint8_t)((C)>>8), (uint8_t)((C)>>0)}; spi.transfer(data, 2); }
-#define tft_Write_16S(C) { uint8_t data[2] = {(uint8_t)((C)>>0), (uint8_t)((C)>>8)}; spi.transfer(data, 2); }
+#define tft_Write_16(C)           \
+{                                 \
+  uint8_t tft_Write_16_data[2] = {0};          \
+                                  \
+  tft_Write_16_data[0] = (uint8_t)(((C)>>8));  \
+  tft_Write_16_data[1] = (uint8_t)(C);         \
+                                  \
+  spi.transfer(tft_Write_16_data, 2);          \
+}
+// #define tft_Write_16S(C) { uint8_t data[2] = {(uint8_t)((C)>>0), (uint8_t)((C)>>8)}; spi.transfer(data, 2); }
+#define tft_Write_16S(C)  \
+{
+  uint8_t data[2] = {0};
+
+  data[0] = (uint8_t)(((C)>>8));
+  data[1] = (uint8_t)(C);
+
+  spi.transfer(data, 2);
+}
 
 #define tft_Write_32(C)  { uint8_t data[4] = {(uint8_t)((C)>>24), (uint8_t)((C)>>16), (uint8_t)((C)>>8), (uint8_t)((C)>>0)}; spi.transfer(data, 4); }
 
@@ -103,6 +121,26 @@
 
 #define tft_Write_32D(C) \
   { uint8_t data[4] = {(uint8_t)((C)>>8), (uint8_t)((C)>>0), (uint8_t)((C)>>8), (uint8_t)((C)>>0)}; spi.transfer(data, 4); }
+
+#else
+  #define tft_Write_8(C)   spi.send8(C)
+  // #define tft_Write_16(C)  spi.send16(C)
+  // #define tft_Write_16S(C) spi.send16(((C)>>8) | ((C)<<8))
+  #define tft_Write_16(C)  tft_Write_8((uint8_t)((C)>>8));tft_Write_8((uint8_t)((C)>>0))
+  #define tft_Write_16S(C) tft_Write_8((uint8_t)((C)>>0));tft_Write_8((uint8_t)((C)>>8))
+
+  #define tft_Write_32(C) \
+  tft_Write_16((uint16_t) ((C)>>16)); \
+  tft_Write_16((uint16_t) ((C)>>0))
+
+  #define tft_Write_32C(C,D) \
+  tft_Write_16((uint16_t) (C)); \
+  tft_Write_16((uint16_t) (D))
+
+  #define tft_Write_32D(C) \
+  tft_Write_16((uint16_t) (C)); \
+  tft_Write_16((uint16_t) (C))
+#endif
 
 #ifndef tft_Write_16N
   #define tft_Write_16N tft_Write_16
