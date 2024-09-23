@@ -129,16 +129,17 @@ int fontNumber = -1; // << Use [Number] in brackets from the fonts listed.
 //                 1234567890123456789012345        and added point size and .vlw extension, so max is 25
 //String fontName = "Final-Frontier";  // Manually crop the filename length later after creation if needed
                                      // Note: SPIFFS does NOT accept underscore in a filename!
-String fontName = "GoogleSans_Regular";
+// String fontName = "GoogleSans_Regular";
+String fontName = "Inconsolata_Regular_2"
 String fontType = ".ttf";
 //String fontType = ".otf";
 
 
 // Define the font size in points for the TFT_eSPI font file
-int  fontSize = 18;
+int  fontSize = 64;
 
 // Font size to use in the Processing sketch display window that pops up (can be different to above)
-int displayFontSize = 18;
+int displayFontSize = 64;
 
 // Create a C header (.h file) ready to be used or copied in your sketch folder
 boolean createHeaderFile = true;
