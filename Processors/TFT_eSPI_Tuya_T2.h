@@ -97,21 +97,17 @@
   #define TFT_MISO -1
 #endif
 
-  #define tft_Write_8(C)   spi.send8(C)
-  #define tft_Write_16(C)  tft_Write_8((uint8_t)((C)>>8));tft_Write_8((uint8_t)((C)>>0))
-  #define tft_Write_16S(C) tft_Write_8((uint8_t)((C)>>0));tft_Write_8((uint8_t)((C)>>8))
+void tft_Write_8(uint8_t C);
 
-  #define tft_Write_32(C) \
-  tft_Write_16((uint16_t) ((C)>>16)); \
-  tft_Write_16((uint16_t) ((C)>>0))
+void tft_Write_16(uint16_t C);
 
-  #define tft_Write_32C(C,D) \
-  tft_Write_16((uint16_t) (C)); \
-  tft_Write_16((uint16_t) (D))
+void tft_Write_16S(uint16_t C);
 
-  #define tft_Write_32D(C) \
-  tft_Write_16((uint16_t) (C)); \
-  tft_Write_16((uint16_t) (C))
+void tft_Write_32(uint32_t C);
+
+void tft_Write_32C(uint16_t C, uint16_t D);
+
+void tft_Write_32D(uint16_t C);
 
 #ifndef tft_Write_16N
   #define tft_Write_16N tft_Write_16

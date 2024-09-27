@@ -11,7 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 
 // Select the SPI port to use
-  SPIClassTuyaOpen& spi = SPI;
+SPIClass& spi = SPI;
 
 #if defined (TFT_SDA_READ) && !defined (TFT_PARALLEL_8_BIT)
 // TODO: Not supported
@@ -94,4 +94,34 @@ void TFT_eSPI::pushPixels(const void* data_in, uint32_t len) {
   }
   return;
 }
+
+void tft_Write_8(uint8_t C) {
+  spi.transfer((void *)&C, 1);
+}
+
+void tft_Write_16(uint16_t C) {
+  uint8_t data[2] = {(uint8_t)((C)>>8), (uint8_t)((C)>>0)};
+  spi.transfer(data, 2);
+}
+
+void tft_Write_16S(uint16_t C) {
+  uint8_t data[2] = {(uint8_t)((C)>>0), (uint8_t)((C)>>8)};
+  spi.transfer(data, 2);
+}
+
+void tft_Write_32(uint32_t C) {
+  uint8_t data[4] = {(uint8_t)((C)>>24), (uint8_t)((C)>>16), (uint8_t)((C)>>8), (uint8_t)((C)>>0)};
+  spi.transfer(data, 4);
+}
+
+void tft_Write_32C(uint16_t C, uint16_t D) {
+  uint8_t data[4] = {(uint8_t)((C)>>8), (uint8_t)((C)>>0), (uint8_t)((D)>>8), (uint8_t)((D)>>0)};
+  spi.transfer(data, 4);
+}
+
+void tft_Write_32D(uint16_t C) {
+  uint8_t data[4] = {(uint8_t)((C)>>8), (uint8_t)((C)>>0), (uint8_t)((C)>>8), (uint8_t)((C)>>0)};
+  spi.transfer(data, 4);
+}
+
 #endif
